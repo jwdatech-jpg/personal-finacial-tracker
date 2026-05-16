@@ -2,6 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+// Check required environment variables
+const requiredEnvVars = ['DATABASE_URL', 'JWT_SECRET'];
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+if (missingEnvVars.length > 0) {
+  console.error('❌ Missing required environment variables:', missingEnvVars);
+  console.error('Available env vars:', Object.keys(process.env).filter(k => k.startsWith('DATABASE') || k.startsWith('JWT')));
+}
+
 const authRoutes = require('../server/src/routes/auth');
 const accountRoutes = require('../server/src/routes/accounts');
 const categoryRoutes = require('../server/src/routes/categories');
@@ -27,17 +35,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/accounts', accountRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/budgets', budgetRoutes);
-app.use('/api/goals', goalRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/users', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/accounts', accountRoutes);
+app.use('/categories', categoryRoutes);
+app.use('/transactions', transactionRoutes);
+app.use('/budgets', budgetRoutes);
+app.use('/goals', goalRoutes);
+app.use('/dashboard', dashboardRoutes);
+app.use('/users', userRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -48,7 +56,7 @@ app.get('/', (req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('❌ API Error:', err);
   res.status(err.status || 500).json({
     error: {
       message: err.message || 'Internal Server Error',
