@@ -2,10 +2,6 @@
   "buildCommand": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
   "outputDirectory": "client/dist",
   "installCommand": "npm install --prefix server && npm install --prefix client",
-  "env": {
-    "VITE_API_URL": "/api"
-  },
-  "envPrefix": ["VITE_", "DATABASE_URL", "JWT_SECRET", "NODE_ENV"],
   "rewrites": [
     {
       "source": "/api/(.*)",
