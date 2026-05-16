@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
+  "buildCommand": "npm install --prefix server && npm install --prefix client --legacy-peer-deps && npm run build --prefix client",
   "outputDirectory": "client/dist",
-  "installCommand": "npm install --prefix server && npm install --prefix client",
+  "installCommand": "npm install --prefix server && npm install --prefix client --legacy-peer-deps",
   "rewrites": [
     {
       "source": "/api/(.*)",
