@@ -35,23 +35,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/auth', authRoutes);
-app.use('/accounts', accountRoutes);
-app.use('/categories', categoryRoutes);
-app.use('/transactions', transactionRoutes);
-app.use('/budgets', budgetRoutes);
-app.use('/goals', goalRoutes);
-app.use('/dashboard', dashboardRoutes);
-app.use('/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/accounts', accountRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/budgets', budgetRoutes);
+app.use('/api/goals', goalRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/users', userRoutes);
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Root endpoint
 app.get('/', (req, res) => {
-  res.json({ message: 'Personal Financial Tracker API', version: '1.0.0' });
+  res.json({ 
+    message: 'Personal Financial Tracker API', 
+    version: '1.0.0',
+    databaseConfigured: !!process.env.DATABASE_URL,
+    nodeEnv: process.env.NODE_ENV
+  });
 });
 
 // Global error handler
